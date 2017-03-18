@@ -1,5 +1,13 @@
 .App {
   text-align: center;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.VerifyImage{
+  text-align: center;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
 .App-logo {
@@ -9,7 +17,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 250px;
   padding: 20px;
   color: white;
 }
@@ -18,7 +26,64 @@
   font-size: large;
 }
 
+.App-list {
+  margin-left: 20px;
+  text-align: left;
+}
+
+ul {
+  list-style: none;
+  display: inline-block;
+}
+
+li.menu-list {
+  float:left;
+  padding: 15px 0px;
+
+}
+
+li a{
+  text-decoration: none;
+  color: white;
+  padding: 16.5px;
+  border-right: 1px solid #bbb;
+}
+
+.active{
+  background-color: #12b7eb;
+}
+
+.menu-list :hover{
+  background-color: #12b7eb;
+}
+
+
+.style-text {
+  font-family: 'crimson text';
+  font-size: 26px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.inputTodos{
+  width: 50%;
+  margin: 5px auto;
+}
+
+.showlisttodos{
+  margin-top: 15px;
+}
+.menu-wrapper{
+  margin: 0 25px;
+
+}
+ul.menu-top{
+  background-color: #f46c54;
+  width: 100%;
+}
+.actionTodos{
+  margin-right: 15px;
 }
