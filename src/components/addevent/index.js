@@ -3,7 +3,8 @@ import '../../App.css'
 import {Grid, Image, Form, Button, TextArea} from 'semantic-ui-react'
 const DatePicker = require('react-datepicker');
 const moment = require('moment');
-
+import GMaps from '../../../public/gmaps.min.js'
+import '../../App.css'
 
 require('react-datepicker/dist/react-datepicker.css');
 
@@ -12,8 +13,34 @@ export default class AddEvent extends Component {
     super()
     this.state = {
       startDate: moment()
-    }
   }
+}
+  componentDidMount () {
+  var map = new GMaps({
+    el: '#map',
+    lat: -6.260697,
+    lng: 106.781391,
+    click: function(e) {
+      map.removeMarkers()
+      map.addMarker({
+        title: 'Game Event',
+        icon: 'https://cdn.sstatic.net/Sites/travel/img/favicon.ico?v=b9725f5d51ee',
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+        infoWindow: {
+           content: `
+           <div>
+             <h3>Game Event</h3>
+             <p>Picture Chalange</p>
+             <img src='http://www.streetdirectory.co.id/stock_images/travel/show_resize_image.php?imageId=ind_13480475810166&w=405&h=275' />
+             <p>Description : as;dkfja;sdlkfjasldfjsad</p>
+           </div>`
+           }
+      });
+    }
+  })
+}
+
 
 
 
@@ -23,7 +50,10 @@ export default class AddEvent extends Component {
 
     render() {
         return (
+
+
             <div className='App'>
+
                 <h1>Game Mangement - New Game</h1>
                 <Grid celled>
                     <Grid.Row>
@@ -60,6 +90,7 @@ export default class AddEvent extends Component {
                                     }}>Location Event</label>
                                     <input placeholder='Location Event'/>
                                 </Form.Field>
+                                  <div id="map" style={{width:800, height:450}}></div>
 
                                 <Button positive>Save Game Event</Button>
                             </Form>
