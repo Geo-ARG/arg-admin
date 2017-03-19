@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
 import { Table} from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import getAllDataEvents from '../../actions'
 
-export default class ListEvent extends Component {
+
+class ListEvent extends Component {
+  componentDidMount(){
+    this.props.getAllDataEvents()
+  }
 
   render () {
+    console.log("testt");
+    console.log(this.props.listDataEvents);
     return (
       <div className='App'>
 
@@ -27,3 +35,15 @@ export default class ListEvent extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    listDataEvents: state.listDataEvents
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  getAllDataEvents: () => dispatch(getAllDataEvents())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListEvent)

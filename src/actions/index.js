@@ -1,7 +1,7 @@
 export const showDataEvent = (resultAddEvent) =>{
   return{
     type: 'SHOW_DATA_EVENTS',
-    payload: resultAddEvent
+    payload: resultAddEvent.reverse()
   }
 }
 
@@ -12,6 +12,16 @@ export const addEvent = (title, description, date, place, eventScore, lat, lng, 
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({title: title, description: description, date: date, place: place, eventScore:place, lat: lat, lng: lng, completion: completion})
       })
+      .then(res => res.json())
+      .then(resultAddEvent => {
+        dispatch(showDataEvent(resultAddEvent))
+      })
+  }
+}
+
+export const getAllDataEvents = () => {
+  return (dispatch) =>{
+      fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/events')
       .then(res => res.json())
       .then(resultAddEvent => {
         dispatch(showDataEvent(resultAddEvent))
