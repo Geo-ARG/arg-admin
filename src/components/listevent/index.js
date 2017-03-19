@@ -14,7 +14,7 @@ export default class ListEvent extends Component {
                     <Table.HeaderCell>No</Table.HeaderCell>
                     <Table.HeaderCell>Game Event</Table.HeaderCell>
                     <Table.HeaderCell>Date Event</Table.HeaderCell>
-                    <Table.HeaderCell>Location Event</Table.HeaderCell>
+                    <Table.HeaderCell>Place Event</Table.HeaderCell>
                     <Table.HeaderCell>Action</Table.HeaderCell>
                   </Table.Row>
               </Table.Header>
