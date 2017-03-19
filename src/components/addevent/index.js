@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import '../../App.css'
-import {Grid, Image, Form, Button, TextArea, Card, Icon} from 'semantic-ui-react'
+import {Grid, Image, Form, Button, TextArea, Icon} from 'semantic-ui-react'
 const DatePicker = require('react-datepicker');
 const moment = require('moment');
 import {connect} from 'react-redux'
@@ -24,10 +24,19 @@ class AddEvents extends Component {
           eventScore: '',
           lat: '',
           lng: '',
-          completion: false
+          completion: false,
+          locationTask_title: '',
+          locationTask_task: '',
+          locationTask_answerKey: '',
+          challengeTask_title: '',
+          challengeTask_task: '',
+          challengeTask_answerKey: '',
+          cameraTask_title: '',
+          cameraTask_task: '',
+          cameraTask_answerKey: 'http://www.golfpondokindah.com/images/top_anim_7.jpg',
       }
     }
-
+    //======= Game Event handleChange============
     onHandleChangeTitle(e){
         e.preventDefault()
         this.setState({
@@ -52,6 +61,71 @@ class AddEvents extends Component {
           eventScore: e.target.value
         })
     }
+    //======= End ============
+
+  //======= LocationTask============
+    titleLocationTask(e){
+        e.preventDefault()
+        this.setState({
+          locationTask_title: e.target.value
+        })
+    }
+    taskLocationTask(e){
+        e.preventDefault()
+        this.setState({
+          locationTask_task: e.target.value
+        })
+    }
+    answerKeyLocationTask(e){
+        e.preventDefault()
+        this.setState({
+          locationTask_answerKey: e.target.value
+        })
+    }
+  //======= End ============
+
+  //======= challengeTask============
+    titlechallengeTask(e){
+        e.preventDefault()
+        this.setState({
+          challengeTask_title: e.target.value
+        })
+    }
+    taskchallengeTask(e){
+        e.preventDefault()
+        this.setState({
+          challengeTask_task: e.target.value
+        })
+    }
+    answerKeychallengeTask(e){
+        e.preventDefault()
+        this.setState({
+          challengeTask_answerKey: e.target.value
+        })
+    }
+  //======= End ============
+
+
+  //======= cameraTask============
+    titlecameraTask(e){
+        e.preventDefault()
+        this.setState({
+          cameraTask_title: e.target.value
+        })
+    }
+    taskcameraTask(e){
+        e.preventDefault()
+        this.setState({
+          cameraTask_task: e.target.value
+        })
+    }
+    answercameraTask(e){
+        e.preventDefault()
+        this.setState({
+          cameraTask_answerKey: e.target.value
+        })
+    }
+  //======= End ============
 
     componentDidMount (e) {
       var that = this
@@ -89,6 +163,9 @@ class AddEvents extends Component {
         lng: 106.781391,
         click: function(e) {
           mapTask.removeMarkers()
+          that.setState({
+            locationTask_answerKey: `${e.latLng.lat()}, ${e.latLng.lng()}`
+          })
           mapTask.addMarker({
             title: 'Location Task',
             icon: 'https://cdn.sstatic.net/Sites/travel/img/favicon.ico?v=b9725f5d51ee',
@@ -97,8 +174,8 @@ class AddEvents extends Component {
             infoWindow: {
                content: `
                <div>
-                 <h3>Location Task</h3>
-                 <p>Description : Kunjungi Lokasi ini</p>
+                 <h3>${that.state.locationTask_title}</h3>
+                 <p>${that.state.locationTask_task}</p>
                </div>`
                }
           });
@@ -115,9 +192,7 @@ class AddEvents extends Component {
                 services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
             },
             function(Blob) {
-            //  document.getElementById("linkUrlImages").innerHTML = Blob.filename
               console.log(Blob.url)
-            //{"url":"https://cdn.filestackcontent.com/31wQVyJ2REaSzZv9SkJu","filename":"images.jpg","mimetype":"image/jpeg","size":9493,"id":1,"client":"computer","isWriteable":true}
             },
             function(FPError) {
               console.log(FPError.toString());
@@ -130,7 +205,7 @@ class AddEvents extends Component {
 
     handleSaveEvents(e){
       e.preventDefault()
-      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng===""){
+      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.startDate==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng==="" || this.state.locationTask_title.trim()==="" || this.state.locationTask_task.trim()==="" || this.state.locationTask_answerKey.trim()==="" || this.state.challengeTask_title.trim()==="" || this.state.challengeTask_task.trim()==="" || this.state.challengeTask_answerKey.trim()==="" || this.state.cameraTask_title.trim()==="" || this.state.cameraTask_task.trim()==="" || this.state.cameraTask_answerKey.trim()===""){
         alert("Input All Field")
       }else{
         this.props.addEvent(this.state)
@@ -142,7 +217,15 @@ class AddEvents extends Component {
           eventScore: '',
           lat: '',
           lng: '',
-          completion: false
+          completion: false,
+          locationTask_title: '',
+          locationTask_task: '',
+          locationTask_answerKey: '',
+          challengeTask_title: '',
+          challengeTask_task: '',
+          challengeTask_answerKey: '',
+          cameraTask_title: '',
+          cameraTask_task: ''
         })
       }
     }
@@ -183,14 +266,6 @@ class AddEvents extends Component {
                                     <label style={{float: 'left', marginTop:15}}>Place</label>
                                     <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)} value={this.state.place}/>
                                 </Form.Field>
-                                {/*<Card style={{marginRight:15}}>
-                                    <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-                                    <Card.Content extra>
-                                        <Button.Group>
-                                            <Button color='orange' onClick={this.uploadImage.bind(this)}>Upload Image</Button>
-                                        </Button.Group>
-                                    </Card.Content>
-                                </Card>*/}
                                 <Form.Field >
                                     <label style={{float: 'left', marginTop:15}}>Event Score</label>
                                     <input placeholder='EventScore' onChange={this.onHandleChangeEventScore.bind(this)} value={this.state.eventScore}/>
@@ -207,10 +282,10 @@ class AddEvents extends Component {
                             <Form>
                                 <Form.Field>
                                     <label style={{float: 'left'}}>Title Quest</label>
-                                    <input placeholder='Title Quest'/>
+                                    <input placeholder='Title Quest' onChange={this.titleLocationTask.bind(this)} value={this.state.locationTask_title}/>
                                 </Form.Field>
                                 <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
-                                <Form.Field control={TextArea} rows='3' placeholder='Task of Game'/>
+                                <Form.Field control={TextArea} onChange={this.taskLocationTask.bind(this)} value={this.state.locationTask_task}rows='3' placeholder='Task of Game'/>
                                 <Form.Field>
                                     <label style={{float: 'left'}}>Answer Key</label><br></br>
                                     <div id="mapTask" style={{marginTop:15, width:'auto', height:300}}></div>
@@ -221,13 +296,13 @@ class AddEvents extends Component {
                           <Form>
                               <Form.Field>
                                   <label style={{float: 'left'}}>Title Quest</label>
-                                  <input placeholder='Title Quest'/>
+                                  <input placeholder='Title Quest' onChange={this.titlechallengeTask.bind(this)} value={this.state.challengeTask_title}/>
                               </Form.Field>
                               <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
-                              <Form.Field control={TextArea} rows='3' placeholder='Task of Game'/>
+                              <Form.Field control={TextArea} onChange={this.taskchallengeTask.bind(this)} value={this.state.challengeTask_task} rows='3' placeholder='Task of Game'/>
                               <Form.Field>
                                   <label style={{float: 'left'}}>Answer Key</label>
-                                  <input placeholder='Answer Key'/>
+                                  <input placeholder='Answer Key' onChange={this.answerKeychallengeTask.bind(this)} value={this.state.challengeTask_answerKey} />
                               </Form.Field>
                           </Form>
                           <hr></hr>
@@ -235,13 +310,12 @@ class AddEvents extends Component {
                         <Form>
                             <Form.Field>
                                 <label style={{float: 'left'}}>Title Quest</label>
-                                <input placeholder='Title Quest'/>
+                                <input placeholder='Title Quest' onChange={this.titlecameraTask.bind(this)} value={this.state.cameraTask_title}/>
                             </Form.Field>
                             <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
-                            <Form.Field control={TextArea} rows='3' placeholder='Task of Game'/>
-                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Input Image</b></label><br></br>
+                            <Form.Field control={TextArea} rows='3' onChange={this.taskcameraTask.bind(this)} value={this.state.cameraTask_task} placeholder='Task of Game'/>
+                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Image Key</b></label><br></br>
                                 <Button color='orange'>Upload Image</Button>
-
                         </Form>
                         <hr></hr>
                           <div>
@@ -258,9 +332,6 @@ class AddEvents extends Component {
 }
 
 
-// const mapDispatchToProps = (dispatch) => {
-//     addEvent: (addNewEvent) => dispatch(addEvent(addNewEvent))
-// }
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({addEvent}, dispatch)
