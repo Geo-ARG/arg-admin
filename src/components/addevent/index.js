@@ -3,23 +3,26 @@ import '../../App.css'
 import {Grid, Image, Form, Button, TextArea, Card} from 'semantic-ui-react'
 const DatePicker = require('react-datepicker');
 const moment = require('moment');
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import GMaps from '../../../public/gmaps.min.js'
+import { addEvent } from '../../actions/index.js'
 // import filepicker from '../../../public/filestack.js'
 // import filepicker from '../../../node_modules/filestack-js/dist/filestack.js'
 const filepicker = require('filestack-js')
 import '../../App.css'
 require('react-datepicker/dist/react-datepicker.css');
 
-export default class AddEvent extends Component {
+class AddEvents extends Component {
     constructor(){
         super()
         this.state = {
           title: '',
           description: '',
-          startDate: moment(),
+          startDate: '',
           place: '',
           eventScore: '',
-          lat: 's',
+          lat: '',
           lng: '',
           completion: false
       }
@@ -70,10 +73,12 @@ export default class AddEvent extends Component {
             infoWindow: {
                content: `
                <div>
-                 <h3>Game Event</h3>
+                 <h3>${that.state.title}</h3>
                  <p>Picture Chalange</p>
-                 <img src='http://www.streetdirectory.co.id/stock_images/travel/show_resize_image.php?imageId=ind_13480475810166&w=405&h=275' />
-                 <p>Description : as;dkfja;sdlkfjasldfjsad</p>
+                 <img src='https://cdn1.iconfinder.com/data/icons/games-colored/512/pokemon_location_2-256.png' />
+                 <p>Description : ${that.state.description}</p>
+                 <p>Description : ${that.state.place}</p>
+                 <p>Description : ${that.state.eventScore}</p>
                </div>`
                }
           });
@@ -103,6 +108,25 @@ export default class AddEvent extends Component {
         this.setState({startDate: date});
     }
 
+    handleSaveEvents(e){
+      e.preventDefault()
+      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng===""){
+        alert("Input All Field")
+      }else{
+        this.props.addEvent(this.state)
+        this.setState({
+          title: '',
+          description: '',
+          startDate: moment(),
+          place: '',
+          eventScore: '',
+          lat: '',
+          lng: '',
+          completion: false
+        })
+      }
+    }
+
     render() {
         return (
             <div className='App'>
@@ -116,21 +140,21 @@ export default class AddEvent extends Component {
                             <Form>
                                 <Form.Field>
                                     <label style={{float: 'left'}}>Geme Event</label>
-                                    <input placeholder='Game Event' onChange={this.onHandleChangeTitle.bind(this)}/>
+                                    <input placeholder='Game Event' onChange={this.onHandleChangeTitle.bind(this)} value={this.state.title}/>
                                 </Form.Field>
 
                                 <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Game Description</b></label>
-                                <Form.Field control={TextArea} onChange={this.onHandleChangeDescription.bind(this)} placeholder='Tell us more about event'/>
+                                <Form.Field control={TextArea} onChange={this.onHandleChangeDescription.bind(this)} value={this.state.description} placeholder='Tell us more about event'/>
 
                                 <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Date Event</b></label>
                                 <br></br>
                                 <div style={{float: 'left'}}>
-                                    <DatePicker selected={this.state.startDate} onChange={this.handleChange.bind(this)}/>
+                                    <DatePicker selected={this.state.startDate} onChange={this.handleChange.bind(this)} />
                                 </div>
 
                                 <Form.Field >
                                     <label style={{float: 'left', marginTop:15}}>Place</label>
-                                    <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)}/>
+                                    <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)} value={this.state.place}/>
                                 </Form.Field>
                                 {/*<Card style={{marginRight:15}}>
                                     <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
@@ -142,13 +166,13 @@ export default class AddEvent extends Component {
                                 </Card>*/}
                                 <Form.Field >
                                     <label style={{float: 'left', marginTop:15}}>Event Score</label>
-                                    <input placeholder='EventScore' onChange={this.onHandleChangeEventScore.bind(this)}/>
+                                    <input placeholder='EventScore' onChange={this.onHandleChangeEventScore.bind(this)} value={this.state.eventScore}/>
                                 </Form.Field>
                                 <Form.Field >
                                   <label style={{float: 'left'}}>Location on Maps</label><br></br>
                                   <div id="map" style={{marginTop:15, width:'auto', height:450}}></div>
                                 </Form.Field>
-                                <Button positive style={{marginTop:15}}>Save Game Event</Button>
+                                <Button positive style={{marginTop:15}} onClick={this.handleSaveEvents.bind(this)} href="#">Save Game Event</Button>
                             </Form>
                         </Grid.Column>
                     </Grid.Row>
@@ -157,3 +181,14 @@ export default class AddEvent extends Component {
         )
     }
 }
+
+
+// const mapDispatchToProps = (dispatch) => {
+//     addEvent: (addNewEvent) => dispatch(addEvent(addNewEvent))
+// }
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({addEvent}, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(AddEvents)
