@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import '../../App.css'
-import {Grid, Image, Form, Button, TextArea, Card} from 'semantic-ui-react'
+import {Grid, Image, Form, Button, TextArea, Card, Icon} from 'semantic-ui-react'
 const DatePicker = require('react-datepicker');
 const moment = require('moment');
 import {connect} from 'react-redux'
@@ -74,11 +74,31 @@ class AddEvents extends Component {
                content: `
                <div>
                  <h3>${that.state.title}</h3>
-                 <p>Picture Chalange</p>
-                 <img src='https://cdn1.iconfinder.com/data/icons/games-colored/512/pokemon_location_2-256.png' />
-                 <p>Description : ${that.state.description}</p>
-                 <p>Description : ${that.state.place}</p>
-                 <p>Description : ${that.state.eventScore}</p>
+                 <p>${that.state.description}</p>
+                 <p>${that.state.place}</p>
+                 <p>${that.state.eventScore}</p>
+               </div>`
+               }
+          });
+        }
+      })
+
+      var mapTask = new GMaps({
+        el: '#mapTask',
+        lat: -6.260697,
+        lng: 106.781391,
+        click: function(e) {
+          mapTask.removeMarkers()
+          mapTask.addMarker({
+            title: 'Location Task',
+            icon: 'https://cdn.sstatic.net/Sites/travel/img/favicon.ico?v=b9725f5d51ee',
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+            infoWindow: {
+               content: `
+               <div>
+                 <h3>Location Task</h3>
+                 <p>Description : Kunjungi Lokasi ini</p>
                </div>`
                }
           });
@@ -129,14 +149,21 @@ class AddEvents extends Component {
 
     render() {
         return (
-            <div className='App'>
-                <h1>Game Mangement - New Game</h1>
+            <div className='InputStyle'>
+                <h1>ARG - Game Management - New Game</h1>
                 <div style={{display:'flex',justifyContent:'center'}}>
                   <Image src='https://4.bp.blogspot.com/-JY1beh0o02M/V3DY9yPdCMI/AAAAAAAAAMI/NQUYgOQdx5MD0_4EQr82nWburZJp14ROwCLcB/s1600/unnamed.png'/>
                 </div>
                 <Grid celled>
                     <Grid.Row>
-                        <Grid.Column width={16}>
+                      <Grid.Column width={3}>
+                        <h3>SETUP</h3>
+                        <div className="gameInfo">
+                          <Icon name='game' size='big' />
+                            <b>GAME INFO</b>
+                        </div>
+                      </Grid.Column>
+                        <Grid.Column width={8}>
                             <Form>
                                 <Form.Field>
                                     <label style={{float: 'left'}}>Geme Event</label>
@@ -170,13 +197,61 @@ class AddEvents extends Component {
                                 </Form.Field>
                                 <Form.Field >
                                   <label style={{float: 'left'}}>Location on Maps</label><br></br>
-                                  <div id="map" style={{marginTop:15, width:'auto', height:450}}></div>
+                                  <div id="map" style={{marginTop:15, width:'auto', height:700}}></div>
                                 </Form.Field>
-                                <Button positive style={{marginTop:15}} onClick={this.handleSaveEvents.bind(this)} href="#">Save Game Event</Button>
+
                             </Form>
                         </Grid.Column>
+                          <Grid.Column width={5}>
+                              <h4>1. Location Task</h4>
+                            <Form>
+                                <Form.Field>
+                                    <label style={{float: 'left'}}>Title Quest</label>
+                                    <input placeholder='Title Quest'/>
+                                </Form.Field>
+                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                                <Form.Field control={TextArea} rows='3' placeholder='Task of Game'/>
+                                <Form.Field>
+                                    <label style={{float: 'left'}}>Answer Key</label><br></br>
+                                    <div id="mapTask" style={{marginTop:15, width:'auto', height:300}}></div>
+                                </Form.Field>
+                            </Form>
+                            <hr></hr>
+                            <h4>2. Challenge Task</h4>
+                          <Form>
+                              <Form.Field>
+                                  <label style={{float: 'left'}}>Title Quest</label>
+                                  <input placeholder='Title Quest'/>
+                              </Form.Field>
+                              <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                              <Form.Field control={TextArea} rows='3' placeholder='Task of Game'/>
+                              <Form.Field>
+                                  <label style={{float: 'left'}}>Answer Key</label>
+                                  <input placeholder='Answer Key'/>
+                              </Form.Field>
+                          </Form>
+                          <hr></hr>
+                          <h4>3. Camera Task</h4>
+                        <Form>
+                            <Form.Field>
+                                <label style={{float: 'left'}}>Title Quest</label>
+                                <input placeholder='Title Quest'/>
+                            </Form.Field>
+                            <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                            <Form.Field control={TextArea} rows='3' placeholder='Task of Game'/>
+                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Input Image</b></label><br></br>
+                                <Button color='orange'>Upload Image</Button>
+
+                        </Form>
+                        <hr></hr>
+                          <div>
+                            <Button positive style={{marginTop:50, marginBottom:15}} onClick={this.handleSaveEvents.bind(this)} href="#">Save Game Event</Button>
+                          </div>
+                      </Grid.Column>
                     </Grid.Row>
+
                 </Grid>
+
             </div>
         )
     }

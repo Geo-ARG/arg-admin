@@ -14,17 +14,17 @@ const App = () => (
               <ul className="menu-top">
                   <li className='menu-list'>
                       <Link to='/' className="active">
-                        Add Event
+                        Add New Event
                       </Link>
                   </li>
                     <li className='menu-list'>
                         <Link to='/listevent'>
-                            List Event
+                            List of Event
                         </Link>
                     </li>
                     <li className='menu-list'>
                         <Link to='/verifyevent'>
-                            Verify Event
+                            Task Images Verify
                         </Link>
                     </li>
                 </ul>

@@ -12,7 +12,7 @@ class ListEvent extends Component {
 
   render () {
     return (
-      <div className='App'>
+      <div className='listStyle'>
         <div className='center showlisttodos'>
             <Table singleLine>
               <Table.Header>

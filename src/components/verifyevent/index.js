@@ -9,8 +9,8 @@ export default class VerifyEvent extends Component {
                 <Card style={{marginRight:15}}>
                     <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
                     <Card.Content>
-                        <Card.Header>Username</Card.Header>
-                        <Card.Meta>Location Event</Card.Meta>
+                        <Card.Header>Title Quest</Card.Header>
+                        <Card.Meta>Task</Card.Meta>
                     </Card.Content>
                     <Card.Content extra>
                         <Button.Group>
@@ -23,8 +23,8 @@ export default class VerifyEvent extends Component {
                 <Card style={{marginRight:15}}>
                     <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
                     <Card.Content>
-                        <Card.Header>Username</Card.Header>
-                        <Card.Meta>Location Event</Card.Meta>
+                        <Card.Header>Title Quest</Card.Header>
+                        <Card.Meta>Task</Card.Meta>
                     </Card.Content>
                     <Card.Content extra>
                         <Button.Group>
