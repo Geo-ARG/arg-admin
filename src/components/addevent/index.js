@@ -19,18 +19,49 @@ export default class AddEvent extends Component {
           startDate: moment(),
           place: '',
           eventScore: '',
-          lat: '',
+          lat: 's',
           lng: '',
           completion: false
       }
     }
-    componentDidMount () {
+
+    onHandleChangeTitle(e){
+        e.preventDefault()
+        this.setState({
+          title: e.target.value
+        })
+    }
+    onHandleChangeDescription(e){
+        e.preventDefault()
+        this.setState({
+          description: e.target.value
+        })
+    }
+    onHandleChangePlace(e){
+        e.preventDefault()
+        this.setState({
+          place: e.target.value
+        })
+    }
+    onHandleChangeEventScore(e){
+        e.preventDefault()
+        this.setState({
+          eventScore: e.target.value
+        })
+    }
+
+    componentDidMount (e) {
+      var that = this
       var map = new GMaps({
         el: '#map',
         lat: -6.260697,
         lng: 106.781391,
         click: function(e) {
           map.removeMarkers()
+          that.setState({
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng()
+          })
           map.addMarker({
             title: 'Game Event',
             icon: 'https://cdn.sstatic.net/Sites/travel/img/favicon.ico?v=b9725f5d51ee',
@@ -52,7 +83,6 @@ export default class AddEvent extends Component {
 
     uploadImage(event){
       event.preventDefault()
-      console.log("masukk");
       filepicker.setKey("AyJh7Qc5RPisfAmqnfBmAz");
             filepicker.pick({
                 mimetype: 'image/*',
@@ -86,18 +116,21 @@ export default class AddEvent extends Component {
                             <Form>
                                 <Form.Field>
                                     <label style={{float: 'left'}}>Geme Event</label>
-                                    <input placeholder='Game Event'/>
+                                    <input placeholder='Game Event' onChange={this.onHandleChangeTitle.bind(this)}/>
                                 </Form.Field>
+
                                 <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Game Description</b></label>
-                                <Form.Field control={TextArea} placeholder='Tell us more about event'/>
+                                <Form.Field control={TextArea} onChange={this.onHandleChangeDescription.bind(this)} placeholder='Tell us more about event'/>
+
                                 <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Date Event</b></label>
                                 <br></br>
                                 <div style={{float: 'left'}}>
                                     <DatePicker selected={this.state.startDate} onChange={this.handleChange.bind(this)}/>
                                 </div>
+
                                 <Form.Field >
                                     <label style={{float: 'left', marginTop:15}}>Place</label>
-                                    <input placeholder='Place'/>
+                                    <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)}/>
                                 </Form.Field>
                                 {/*<Card style={{marginRight:15}}>
                                     <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
@@ -109,7 +142,7 @@ export default class AddEvent extends Component {
                                 </Card>*/}
                                 <Form.Field >
                                     <label style={{float: 'left', marginTop:15}}>Event Score</label>
-                                    <input placeholder='EventScore'/>
+                                    <input placeholder='EventScore' onChange={this.onHandleChangeEventScore.bind(this)}/>
                                 </Form.Field>
                                 <Form.Field >
                                   <label style={{float: 'left'}}>Location on Maps</label><br></br>

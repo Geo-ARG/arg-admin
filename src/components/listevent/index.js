@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import { Table} from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import getAllDataEvents from '../../actions'
+import { getAllDataEvents } from '../../actions/index.js'
 
 
 class ListEvent extends Component {
-  componentDidMount(){
+  componentWillMount(){
     this.props.getAllDataEvents()
   }
 
   render () {
-    console.log("testt");
-    console.log(this.props.listDataEvents);
     return (
       <div className='App'>
-
-          <div className='center showlisttodos'>
+        <div className='center showlisttodos'>
             <Table singleLine>
               <Table.Header>
                   <Table.Row>
@@ -26,12 +23,21 @@ class ListEvent extends Component {
                     <Table.HeaderCell>Action</Table.HeaderCell>
                   </Table.Row>
               </Table.Header>
-                  <Table.Body>
-
-                 </Table.Body>
+              <Table.Body>
+                  {this.props.listDataEvents.map((item, index) => {
+                     return (
+                    <Table.Row key={item.id}>
+                       <Table.Cell>{index+1}</Table.Cell>
+                       <Table.Cell>{item.title}</Table.Cell>
+                       <Table.Cell>{item.date}</Table.Cell >
+                       <Table.Cell>{item.place}</Table.Cell >
+                       <Table.Cell>==</Table.Cell>
+                    </Table.Row>)
+                  })}
+              </Table.Body>
              </Table>
           </div>
-      </div>
+        </div>
     )
   }
 }
