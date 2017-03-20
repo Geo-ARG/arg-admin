@@ -72,7 +72,7 @@ export const deleteEvent = (id) => {
     })
     .then(res => res.json())
     .then(deleteEvent => {
-      dispatch(deleteQuest(deleteEvent.id))
+      dispatch(deleteQuest(id))
       dispatch(getAllDataEvents())
     })
   }
