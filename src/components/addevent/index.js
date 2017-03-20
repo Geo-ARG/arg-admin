@@ -7,9 +7,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import GMaps from '../../../public/gmaps.min.js'
 import { addEvent } from '../../actions/index.js'
-// import filepicker from '../../../public/filestack.js'
-// import filepicker from '../../../node_modules/filestack-js/dist/filestack.js'
-const filepicker = require('filestack-js')
+import ReactFilestack from 'react-filestack'
 import '../../App.css'
 require('react-datepicker/dist/react-datepicker.css');
 
@@ -33,7 +31,7 @@ class AddEvents extends Component {
           challengeTask_answerKey: '',
           cameraTask_title: '',
           cameraTask_task: '',
-          cameraTask_answerKey: 'http://www.golfpondokindah.com/images/top_anim_7.jpg',
+          cameraTask_taskphotoUrl: ''
       }
     }
     //======= Game Event handleChange============
@@ -119,12 +117,6 @@ class AddEvents extends Component {
           cameraTask_task: e.target.value
         })
     }
-    answercameraTask(e){
-        e.preventDefault()
-        this.setState({
-          cameraTask_answerKey: e.target.value
-        })
-    }
   //======= End ============
 
     componentDidMount (e) {
@@ -183,29 +175,13 @@ class AddEvents extends Component {
       })
     }
 
-    uploadImage(event){
-      event.preventDefault()
-      filepicker.setKey("AyJh7Qc5RPisfAmqnfBmAz");
-            filepicker.pick({
-                mimetype: 'image/*',
-                container: 'window',
-                services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
-            },
-            function(Blob) {
-              console.log(Blob.url)
-            },
-            function(FPError) {
-              console.log(FPError.toString());
-            });
-    }
-
     handleChange(date) {
         this.setState({startDate: date});
     }
 
     handleSaveEvents(e){
       e.preventDefault()
-      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.startDate==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng==="" || this.state.locationTask_title.trim()==="" || this.state.locationTask_task.trim()==="" || this.state.locationTask_answerKey.trim()==="" || this.state.challengeTask_title.trim()==="" || this.state.challengeTask_task.trim()==="" || this.state.challengeTask_answerKey.trim()==="" || this.state.cameraTask_title.trim()==="" || this.state.cameraTask_task.trim()==="" || this.state.cameraTask_answerKey.trim()===""){
+      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.startDate==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng==="" || this.state.locationTask_title.trim()==="" || this.state.locationTask_task.trim()==="" || this.state.locationTask_answerKey.trim()==="" || this.state.challengeTask_title.trim()==="" || this.state.challengeTask_task.trim()==="" || this.state.challengeTask_answerKey.trim()==="" || this.state.cameraTask_title.trim()==="" || this.state.cameraTask_task.trim()==="" || this.state.cameraTask_taskphotoUrl===""){
         alert("Input All Field")
       }else{
         this.props.addEvent(this.state)
@@ -225,12 +201,24 @@ class AddEvents extends Component {
           challengeTask_task: '',
           challengeTask_answerKey: '',
           cameraTask_title: '',
-          cameraTask_task: ''
+          cameraTask_task: '',
+          cameraTask_taskphotoUrl: ''
         })
       }
     }
 
     render() {
+      const apikey = 'AyJh7Qc5RPisfAmqnfBmAz';
+        const onSuccess = (result) => {
+          console.log(result);
+          this.setState({
+              cameraTask_taskphotoUrl: result.filesUploaded[0].url
+          })
+      }
+      const onError = (error) => {
+          console.error(error);
+      }
+
         return (
             <div className='InputStyle'>
                 <h1>ARG - Game Management - New Game</h1>
@@ -314,8 +302,10 @@ class AddEvents extends Component {
                             </Form.Field>
                             <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
                             <Form.Field control={TextArea} rows='3' onChange={this.taskcameraTask.bind(this)} value={this.state.cameraTask_task} placeholder='Task of Game'/>
-                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Image Key</b></label><br></br>
-                                <Button color='orange'>Upload Image</Button>
+
+                                  <div>Pick Image MasterKey Challenge</div>
+                                  <ReactFilestack apikey={apikey} buttonText="Upload Image" onSuccess={onSuccess} onError={onError} />
+
                         </Form>
                         <hr></hr>
                           <div>
