@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Checkbox, Form, Grid, Icon, Image } from 'semantic-ui-react'
+import { Button, Form, Grid, Icon, Image } from 'semantic-ui-react'
 
 export default class Login extends Component {
 

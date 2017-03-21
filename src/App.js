@@ -28,11 +28,11 @@ const App = () => (
                             Task Images Verify
                         </Link>
                     </li>
-                    <li className='menu-logout'>
+                    {/*<li className='menu-logout'>
                         <Link to='/'>
                             <b>Logout</b>
                         </Link>
-                    </li>
+                    </li>*/}
                 </ul>
             </div>
 

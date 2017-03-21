@@ -7,7 +7,7 @@ class VerifyEvent extends Component {
     constructor(){
       super()
       this.state={
-        itemListEvent: []
+        dataConfirmImage: []
       }
       this.getListEvent = this.getListEvent.bind(this)
     }
@@ -15,14 +15,22 @@ class VerifyEvent extends Component {
       this.props.getAllUserEvents()
     }
 
-    getListEvent(itemListEvent){
+
+    getListEvent(dataConfirmImage){
       this.setState({
-        itemListEvent: [itemListEvent]
+        dataConfirmImage: [dataConfirmImage]
       })
     }
 
 
     render() {
+      var arrDataEvents = []
+      if(this.props.listUserEvents.length !==0){
+        var hasil = this.props.listUserEvents.map(item=>{
+            return item
+        })
+        arrDataEvents = hasil
+      }
         return (
           <div className='InputStyle'>
               <Grid celled>
@@ -31,32 +39,20 @@ class VerifyEvent extends Component {
                       <h3>VERIFY IMAGE</h3>
                       <div className="gameInfo">
                         <Icon name='game' size='big' />
-                          <b>LIST EVENT</b>
+                          <b>LIST IMAGES</b>
                       </div>
-                      {this.props.listUserEvents.length !==0 ?
-                        this.props.listUserEvents.map((item, index)=>{
-                        return (
-                          <div key={index} className="listinfo">
-                              <a onClick={()=>this.getListEvent(item)} href="#" >{item.Event.id}</a>
-                          </div>
-                          )
-                        })
-                        : ""
-                      }
+
                     </Grid.Column>
                         <Grid.Column width={8}>
                           <div className='VerifyImage'>
-                            {this.state.itemListEvent.length !== 0 ?
-                              this.state.itemListEvent.map((DataAnswerUser, index)=>{
+                            {arrDataEvents.length !== 0 ?
+                              arrDataEvents.map((DataAnswerUser, index)=>{
                                 return (
                                     <div key={index} style={{width: '20%', marginRight: "2%"}}>
                                       <Card style={{marginRight:15}}>
                                             <Image src={DataAnswerUser.userAnswer}/>
-                                              {/*<div style={{marginTop: 5, marginBottom: 5}}>
-                                                <Button onClick={()=>this.props.updateUserCompletion(this.state.itemListEvent.id, false)} negative>Remove</Button>
-                                              </div>*/}
                                               <div style={{marginTop: 5, marginBottom: 5}}>
-                                                <Button onClick={()=>this.props.updateUserCompletion(DataAnswerUser.id, true)} positive>Confirm</Button>
+                                                <Button onClick={()=>this.getListEvent(DataAnswerUser)} color="orange">Check</Button>
                                               </div>
                                       </Card>
                                     </div>
@@ -67,11 +63,12 @@ class VerifyEvent extends Component {
                         </Grid.Column>
                         <Grid.Column width={5}>
                             <Card style={{marginRight:15}}>
-                                <Image src={this.state.itemListEvent.length !== 0 ? this.state.itemListEvent[0].Quest.answerKey : ""}/>
+                                <Image src={this.state.dataConfirmImage.length !== 0 ? this.state.dataConfirmImage[0].Quest.answerKey : ""}/>
                                 <Card.Content>
-                                    <Card.Header>{this.state.itemListEvent.length !== 0 ? this.state.itemListEvent[0].Quest.title : ""}</Card.Header>
-                                    <Card.Meta>{this.state.itemListEvent.length !== 0 ? this.state.itemListEvent[0].Quest.task : "AnswerKey"}</Card.Meta>
+                                    <Card.Header>{this.state.dataConfirmImage.length !== 0 ? this.state.dataConfirmImage[0].Quest.title : ""}</Card.Header>
+                                    <Card.Meta>{this.state.dataConfirmImage.length !== 0 ? this.state.dataConfirmImage[0].Quest.task : "AnswerKey"}</Card.Meta>
                                 </Card.Content>
+                                {this.state.dataConfirmImage.length !== 0 ? <Button onClick={()=>this.props.updateUserCompletion(this.state.dataConfirmImage[0].id, true)} positive>Confirm</Button> : ""}
                             </Card>
                         </Grid.Column>
                   </Grid.Row>
