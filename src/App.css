@@ -82,11 +82,16 @@ li a{
 .listStyle{
 
 }
-.VerifyImage{
+.VerifyImage > div{
+  display: inline-block;
+}
 
+.listinfo{
+  margin-top: 5%;
 }
 
 .gameInfo{
+  margin-bottom: 15%;
   text-align: left;
   margin-left: -15px;
   padding-top: 5px;

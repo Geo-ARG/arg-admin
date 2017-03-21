@@ -31,7 +31,7 @@ class AddEvents extends Component {
           challengeTask_answerKey: '',
           cameraTask_title: '',
           cameraTask_task: '',
-          cameraTask_taskphotoUrl: ''
+          cameraTask_answerKey: ''
       }
     }
     //======= Game Event handleChange============
@@ -181,7 +181,7 @@ class AddEvents extends Component {
 
     handleSaveEvents(e){
       e.preventDefault()
-      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.startDate==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng==="" || this.state.locationTask_title.trim()==="" || this.state.locationTask_task.trim()==="" || this.state.locationTask_answerKey.trim()==="" || this.state.challengeTask_title.trim()==="" || this.state.challengeTask_task.trim()==="" || this.state.challengeTask_answerKey.trim()==="" || this.state.cameraTask_title.trim()==="" || this.state.cameraTask_task.trim()==="" || this.state.cameraTask_taskphotoUrl===""){
+      if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.startDate==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng==="" || this.state.locationTask_title.trim()==="" || this.state.locationTask_task.trim()==="" || this.state.locationTask_answerKey.trim()==="" || this.state.challengeTask_title.trim()==="" || this.state.challengeTask_task.trim()==="" || this.state.challengeTask_answerKey.trim()==="" || this.state.cameraTask_title.trim()==="" || this.state.cameraTask_task.trim()==="" || this.state.cameraTask_answerKey===""){
         alert("Input All Field")
       }else{
         this.props.addEvent(this.state)
@@ -202,7 +202,7 @@ class AddEvents extends Component {
           challengeTask_answerKey: '',
           cameraTask_title: '',
           cameraTask_task: '',
-          cameraTask_taskphotoUrl: ''
+          cameraTask_answerKey: ''
         })
       }
     }
@@ -212,7 +212,7 @@ class AddEvents extends Component {
         const onSuccess = (result) => {
           console.log(result);
           this.setState({
-              cameraTask_taskphotoUrl: result.filesUploaded[0].url
+              cameraTask_answerKey: result.filesUploaded[0].url
           })
       }
       const onError = (error) => {

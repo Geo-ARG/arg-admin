@@ -32,7 +32,7 @@ export const addQuest = (idEvent, newDataEvent) => {
         fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/quests',{
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({title: newDataEvent.cameraTask_title, task: newDataEvent.cameraTask_task, EventId: idEvent, type: "Photo", answerKey: "", photoUrl: newDataEvent.cameraTask_taskphotoUrl, verification: false})
+          body: JSON.stringify({title: newDataEvent.cameraTask_title, task: newDataEvent.cameraTask_task, EventId: idEvent, type: "Photo", answerKey: newDataEvent.cameraTask_answerKey, photoUrl: "", verification: false})
         })
     }
 }
@@ -64,6 +64,14 @@ export const deleteQuest = (id) => {
   }
 }
 
+export const deleteUserEvents = (id) => {
+  return (dispatch) => {
+    fetch ('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/event/'+id,{
+      method: 'DELETE'
+    })
+  }
+}
+
 
 export const deleteEvent = (id) => {
   return (dispatch) => {
@@ -72,6 +80,7 @@ export const deleteEvent = (id) => {
     })
     .then(res => res.json())
     .then(deleteEvent => {
+      dispatch(deleteUserEvents(id))
       dispatch(deleteQuest(id))
       dispatch(getAllDataEvents())
     })
