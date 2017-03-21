@@ -14,7 +14,7 @@ const App = () => (
             <div className="menu-wrapper">
               <ul className="menu-top">
                   <li className='menu-list'>
-                      <Link to='/' className="active">
+                      <Link to='/addevent'>
                         Add New Event
                       </Link>
                   </li>
@@ -28,11 +28,16 @@ const App = () => (
                             Task Images Verify
                         </Link>
                     </li>
+                    <li className='menu-logout'>
+                        <Link to='/'>
+                            <b>Logout</b>
+                        </Link>
+                    </li>
                 </ul>
             </div>
 
-              <Route exact path='/login' component={Login}/>
-              <Route exact path='/' component={AddEvent}/>
+              <Route exact path='/addevent' component={AddEvent}/>
+              <Route exact path='/' component={Login}/>
               <Route exact path='/listevent' component={ListEvent}/>
               <Route exact path='/verifyevent' component={VerifyEvent}/>
           </div>

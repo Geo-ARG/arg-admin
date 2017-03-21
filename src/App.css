@@ -4,8 +4,6 @@
   margin-right: 15%;
 }
 
-
-
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -35,7 +33,6 @@ ul {
 li.menu-list {
   float:left;
   padding: 15px 0px;
-
 }
 
 li a{
@@ -44,6 +41,15 @@ li a{
   padding: 16.5px;
   border-right: 1px solid #bbb;
 }
+
+li.menu-logout {
+  background-color: #12b7eb;
+  margin-right: 20px;
+  float:right;
+  padding: 15px 0px;
+}
+
+
 
 .active{
   background-color: #12b7eb;
