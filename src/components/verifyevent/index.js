@@ -1,9 +1,30 @@
 import React, {Component} from 'react'
 import {Grid, Icon, Card, Image, Button} from 'semantic-ui-react'
+import { getAllUserEvents, updateUserCompletion } from '../../actions/index.js'
+import { connect } from 'react-redux'
 
-export default class VerifyEvent extends Component {
+class VerifyEvent extends Component {
+    constructor(){
+      super()
+      this.state={
+        itemListEvent: [],
+        filerSubmitIdUser: []
+      }
+      this.getListEvent = this.getListEvent.bind(this)
+    }
+    componentWillMount(){
+      this.props.getAllUserEvents()
+    }
+
+    getListEvent(itemListEvent){
+      this.setState({
+        itemListEvent: [itemListEvent]
+      })
+    }
+
 
     render() {
+      console.log(this.state.itemListEvent);
         return (
           <div className='InputStyle'>
               <Grid celled>
@@ -14,87 +35,65 @@ export default class VerifyEvent extends Component {
                         <Icon name='game' size='big' />
                           <b>LIST EVENT</b>
                       </div>
-                      <div className="listinfo">
-                          <a href="#" >Pondok Indah Mall</a>
-                      </div>
-                      <div className="listinfo">
-                          <a href="#" >Hacktiv8 Indonesia</a>
-                      </div>
+                      {this.props.listUserEvents.length !==0 ?
+                        this.props.listUserEvents.map((item, index)=>{
+                        return (
+                          <div key={index} className="listinfo">
+                              <a onClick={()=>this.getListEvent(item)} href="#" >{item.Event.title}</a>
+                          </div>
+                          )
+                        })
+                        : ""
+                      }
                     </Grid.Column>
                         <Grid.Column width={8}>
                           <div className='VerifyImage'>
-                                <div style={{width: '20%', marginRight: "2%"}}>
-                                  <Card style={{marginRight:15}}>
-                                      <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-                                        <div style={{marginTop: 5, marginBottom: 5}}>
-                                          <Button positive>Confirm</Button>
-                                        </div>
-                                        <div style={{marginTop: 5, marginBottom: 5}}>
-                                          <Button negative>Remove</Button>
-                                        </div>
-
-                                  </Card>
-                                </div>
-                                <div style={{width: '20%'}}>
-                                  <Card style={{marginRight:15, alignItems: 'center'}}>
-                                      <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-                                      <div style={{marginTop: 5, marginBottom: 5}}>
-                                        <Button positive>Confirm</Button>
-                                      </div>
-                                      <div style={{marginTop: 5, marginBottom: 5}}>
-                                        <Button negative>Remove</Button>
-                                      </div>
-                                  </Card>
-                                  </div>
+                            {this.state.itemListEvent.length !== 0 ?
+                              this.state.itemListEvent.filter((filterUserAnswer)=>{
+                                return filterUserAnswer.id !== this.state.filerSubmitIdUser[this.state.filerSubmitIdUser.length-1]
+                              }).map((DataAnswerUser, index)=>{
+                                return (
+                                    <div key={index} style={{width: '20%', marginRight: "2%"}}>
+                                      <Card style={{marginRight:15}}>
+                                            <Image src={DataAnswerUser.userAnswer}/>
+                                              {/*<div style={{marginTop: 5, marginBottom: 5}}>
+                                                <Button onClick={()=>this.props.updateUserCompletion(this.state.itemListEvent.id, false)} negative>Remove</Button>
+                                              </div>*/}
+                                              <div style={{marginTop: 5, marginBottom: 5}}>
+                                                <Button onClick={()=>this.props.updateUserCompletion(DataAnswerUser.id, true)} positive>Confirm</Button>
+                                              </div>
+                                      </Card>
+                                    </div>
+                                  )
+                              })
+                            : <h3>List User Answer</h3>}
                             </div>
                         </Grid.Column>
                         <Grid.Column width={5}>
                             <Card style={{marginRight:15}}>
-                                <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
+                                <Image src={this.state.itemListEvent.length !== 0 ? this.state.itemListEvent[0].Quest.answerKey : ""}/>
                                 <Card.Content>
-                                    <Card.Header>Title Event</Card.Header>
-                                    <Card.Meta>Location</Card.Meta>
+                                    <Card.Header>{this.state.itemListEvent.length !== 0 ? this.state.itemListEvent[0].Quest.title : ""}</Card.Header>
+                                    <Card.Meta>{this.state.itemListEvent.length !== 0 ? this.state.itemListEvent[0].Quest.task : "AnswerKey"}</Card.Meta>
                                 </Card.Content>
                             </Card>
                         </Grid.Column>
                   </Grid.Row>
-
               </Grid>
-
           </div>
         )
     }
 }
 
-/*
-<div className='VerifyImage'>
-  <Card style={{marginRight:15}}>
-      <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-      <Card.Content>
-          <Card.Header>Title Quest</Card.Header>
-          <Card.Meta>Task</Card.Meta>
-      </Card.Content>
-      <Card.Content extra>
-          <Button.Group>
-              <Button negative>Remove</Button>
-              <Button.Or/>
-              <Button positive>Confirm</Button>
-          </Button.Group>
-      </Card.Content>
-  </Card>
-  <Card style={{marginRight:15}}>
-      <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-      <Card.Content>
-          <Card.Header>Title Quest</Card.Header>
-          <Card.Meta>Task</Card.Meta>
-      </Card.Content>
-      <Card.Content extra>
-          <Button.Group>
-              <Button negative>Remove</Button>
-              <Button.Or/>
-              <Button positive>Confirm</Button>
-          </Button.Group>
-      </Card.Content>
-  </Card>
-</div>
-*/
+const mapStateToProps = (state) => {
+  return {
+    listUserEvents: state.listDataUserEvents
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  getAllUserEvents: () => dispatch(getAllUserEvents()),
+  updateUserCompletion: (id, status) => dispatch(updateUserCompletion(id, status))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEvent)

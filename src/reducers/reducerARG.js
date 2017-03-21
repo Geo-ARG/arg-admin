@@ -6,3 +6,12 @@ export const listDataEvents = (state = [], action)=>{
       return state;
   }
 }
+
+export const listDataUserEvents = (state= [], action) => {
+  switch (action.type) {
+    case 'SHOW_DATA_USER_EVENTS':
+      return action.payload;
+    default:
+      return state;
+  }
+}

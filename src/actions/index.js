@@ -5,6 +5,34 @@ export const showDataEvent = (resultAddEvent) =>{
   }
 }
 
+export const showDataUserEvents = (resutUserEvents) => {
+  return {
+    type: 'SHOW_DATA_USER_EVENTS',
+    payload: resutUserEvents
+  }
+}
+
+export const getAllUserEvents = () => {
+  return (dispatch) => {
+    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/quests/photo')
+    .then(res => res.json())
+    .then(resutUserEvents =>{
+      dispatch(showDataUserEvents(resutUserEvents))
+    })
+  }
+}
+
+export const updateUserCompletion = (id, status) => {
+  return (dispatch) => {
+    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/'+id,{
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({completion: status})
+    }).then(()=>{
+      dispatch(getAllUserEvents())
+    })
+  }
+}
 
 
 export const getAllDataEvents = () => {

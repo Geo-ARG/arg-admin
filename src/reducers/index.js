@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux'
-import { listDataEvents } from './reducerARG'
+import { listDataEvents, listDataUserEvents } from './reducerARG'
 
 const rootReducers = combineReducers({
-  listDataEvents: listDataEvents
+  listDataEvents: listDataEvents,
+  listDataUserEvents: listDataUserEvents
 })
 
 export default rootReducers
