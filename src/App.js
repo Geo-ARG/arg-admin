@@ -5,6 +5,7 @@ import './App.css';
 import AddEvent from './components/addevent'
 import ListEvent from './components/listevent'
 import VerifyEvent from './components/verifyevent'
+import Login from './components/login'
 
 const App = () => (
     <div className="App">
@@ -19,7 +20,7 @@ const App = () => (
                   </li>
                     <li className='menu-list'>
                         <Link to='/listevent'>
-                            List of Event
+                            List of Events
                         </Link>
                     </li>
                     <li className='menu-list'>
@@ -30,6 +31,7 @@ const App = () => (
                 </ul>
             </div>
 
+              <Route exact path='/login' component={Login}/>
               <Route exact path='/' component={AddEvent}/>
               <Route exact path='/listevent' component={ListEvent}/>
               <Route exact path='/verifyevent' component={VerifyEvent}/>

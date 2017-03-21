@@ -7,8 +7,7 @@ class VerifyEvent extends Component {
     constructor(){
       super()
       this.state={
-        itemListEvent: [],
-        filerSubmitIdUser: []
+        itemListEvent: []
       }
       this.getListEvent = this.getListEvent.bind(this)
     }
@@ -24,7 +23,6 @@ class VerifyEvent extends Component {
 
 
     render() {
-      console.log(this.state.itemListEvent);
         return (
           <div className='InputStyle'>
               <Grid celled>
@@ -39,7 +37,7 @@ class VerifyEvent extends Component {
                         this.props.listUserEvents.map((item, index)=>{
                         return (
                           <div key={index} className="listinfo">
-                              <a onClick={()=>this.getListEvent(item)} href="#" >{item.Event.title}</a>
+                              <a onClick={()=>this.getListEvent(item)} href="#" >{item.Event.id}</a>
                           </div>
                           )
                         })
@@ -49,9 +47,7 @@ class VerifyEvent extends Component {
                         <Grid.Column width={8}>
                           <div className='VerifyImage'>
                             {this.state.itemListEvent.length !== 0 ?
-                              this.state.itemListEvent.filter((filterUserAnswer)=>{
-                                return filterUserAnswer.id !== this.state.filerSubmitIdUser[this.state.filerSubmitIdUser.length-1]
-                              }).map((DataAnswerUser, index)=>{
+                              this.state.itemListEvent.map((DataAnswerUser, index)=>{
                                 return (
                                     <div key={index} style={{width: '20%', marginRight: "2%"}}>
                                       <Card style={{marginRight:15}}>
