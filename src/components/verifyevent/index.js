@@ -26,21 +26,26 @@ export default class VerifyEvent extends Component {
                                 <div style={{width: '20%', marginRight: "2%"}}>
                                   <Card style={{marginRight:15}}>
                                       <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-                                      <Button positive>Confirm</Button>
-                                      <Button negative>Remove</Button>
+                                        <div style={{marginTop: 5, marginBottom: 5}}>
+                                          <Button positive>Confirm</Button>
+                                        </div>
+                                        <div style={{marginTop: 5, marginBottom: 5}}>
+                                          <Button negative>Remove</Button>
+                                        </div>
 
                                   </Card>
                                 </div>
                                 <div style={{width: '20%'}}>
-                                  <Card style={{marginRight:15}}>
+                                  <Card style={{marginRight:15, alignItems: 'center'}}>
                                       <Image src='http://react.semantic-ui.com/assets/images/avatar/large/daniel.jpg'/>
-                                      <Button positive>Confirm</Button>
-                                      <Button negative>Remove</Button>
+                                      <div style={{marginTop: 5, marginBottom: 5}}>
+                                        <Button positive>Confirm</Button>
+                                      </div>
+                                      <div style={{marginTop: 5, marginBottom: 5}}>
+                                        <Button negative>Remove</Button>
+                                      </div>
                                   </Card>
                                   </div>
-
-
-
                             </div>
                         </Grid.Column>
                         <Grid.Column width={5}>
