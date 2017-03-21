@@ -42,6 +42,7 @@ class AddEvents extends Component {
         })
     }
     onHandleChangeDescription(e){
+
         e.preventDefault()
         this.setState({
           description: e.target.value
@@ -52,6 +53,42 @@ class AddEvents extends Component {
         this.setState({
           place: e.target.value
         })
+        var that = this
+        GMaps.geocode({
+          address: that.state.place,
+          callback: function(results, status) {
+            if (status === 'OK')
+              that.setState({
+                lat: results[0].geometry.location.lat(),
+                lng: results[0].geometry.location.lng()
+              })
+            }
+          })
+
+          setTimeout(()=>{
+            var map = new GMaps({
+              div: '#map',
+              zoom: 14,
+              lat: that.state.lat || 0,
+              lng: that.state.lng || 0,
+            })
+            map.addMarker({
+              title: 'Game Event',
+              icon: 'https://cdn.sstatic.net/Sites/travel/img/favicon.ico?v=b9725f5d51ee',
+              lat: that.state.lat || 0,
+              lng: that.state.lng || 0,
+              infoWindow: {
+                 content: `
+                 <div>
+                   <h3>${that.state.title}</h3>
+                   <p>${that.state.description}</p>
+                   <p>${that.state.place}</p>
+                   <p>${that.state.eventScore}</p>
+                 </div>`
+                 }
+            });
+          }, 1000);
+
     }
     onHandleChangeEventScore(e){
         e.preventDefault()
@@ -117,6 +154,8 @@ class AddEvents extends Component {
           cameraTask_task: e.target.value
         })
     }
+
+
   //======= End ============
 
     componentDidMount (e) {
@@ -134,8 +173,8 @@ class AddEvents extends Component {
           map.addMarker({
             title: 'Game Event',
             icon: 'https://cdn.sstatic.net/Sites/travel/img/favicon.ico?v=b9725f5d51ee',
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
+            lat: that.state.lat,
+            lng: that.state.lng,
             infoWindow: {
                content: `
                <div>
@@ -148,6 +187,8 @@ class AddEvents extends Component {
           });
         }
       })
+
+
 
       var mapTask = new GMaps({
         el: '#mapTask',
