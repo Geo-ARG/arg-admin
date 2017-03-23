@@ -52,6 +52,8 @@ class Login extends Component {
   render(){
     return(
       <div className='InputStyle'>
+        {localStorage.getItem('token') ? <ReactRedirect location='addevent'>
+        </ReactRedirect> : <div></div>}
         {this.state.statusLogin ? <ReactRedirect location='addevent'>
           </ReactRedirect> :
           <Grid celled>

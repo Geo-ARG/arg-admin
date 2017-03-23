@@ -34,7 +34,6 @@ class AddEvents extends Component {
           cameraTask_task: '',
           cameraTask_answerKey: ''
       }
-      this.logout = this.logout.bind(this)
     }
     //======= Game Event handleChange============
     onHandleChangeTitle(e){
@@ -257,10 +256,6 @@ class AddEvents extends Component {
       }
     }
 
-    logout(e){
-      e.preventDefault()
-      localStorage.clear()
-    }
 
     render() {
 
@@ -290,10 +285,6 @@ class AddEvents extends Component {
                             <div className="gameInfo">
                               <Icon name='game' size='big' />
                                 <b>GAME INFO</b>
-                            </div>
-                            <div onClick={(e)=>this.logout(e)} style={{marginTop: 20}} className="gameInfo">
-                              <Icon name='cancel' size='big' />
-                                <b>Logout</b>
                             </div>
                           </Grid.Column>
                             <Grid.Column width={8}>

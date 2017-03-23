@@ -61,11 +61,6 @@ class VerifyEvent extends Component {
                           <Icon name='game' size='big' />
                             <b>LIST IMAGES</b>
                         </div>
-                        <div style={{marginTop: 20}} className="gameInfo">
-                          <Icon name='cancel' size='big' />
-                            <b>Logout</b>
-                        </div>
-
                       </Grid.Column>
                           <Grid.Column width={8}>
                             <div className='VerifyImage'>
