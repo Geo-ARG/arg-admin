@@ -15,7 +15,7 @@ class AddEvents extends Component {
     constructor(){
         super()
         this.state = {
-          // loginStatus: false,
+          token: false,
           title: '',
           description: '',
           startDate: '',
@@ -161,9 +161,9 @@ class AddEvents extends Component {
   //======= End ============
 
     componentWillMount(){
-        // this.setState({
-        //   loginStatus: this.props.listsessionLoginStatus
-        // })
+        this.setState({
+          token: localStorage.getItem('token')
+        })
     }
 
     componentDidMount (e) {
@@ -259,22 +259,26 @@ class AddEvents extends Component {
 
     logout(e){
       e.preventDefault()
-      // localStorage.clear()
+      localStorage.clear()
     }
 
     render() {
 
-      const apikey = 'AyJh7Qc5RPisfAmqnfBmAz';
-      const onSuccess = (result) => {
-          this.setState({
-              cameraTask_answerKey: result.filesUploaded[0].url
-          })
-      }
-      const onError = (error) => {
-          console.error(error);
-      }
+        const apikey = 'AyJh7Qc5RPisfAmqnfBmAz';
+        const onSuccess = (result) => {
+            this.setState({
+                cameraTask_answerKey: result.filesUploaded[0].url
+            })
+        }
+        const onError = (error) => {
+            console.error(error);
+        }
+
+
         return (
             <div className='InputStyle'>
+                {!this.state.token ? <div></div> :
+                  <div>
                     <h1>ARG - Game Management - New Game</h1>
                     <div style={{display:'flex',justifyContent:'center'}}>
                       <Image src='https://4.bp.blogspot.com/-JY1beh0o02M/V3DY9yPdCMI/AAAAAAAAAMI/NQUYgOQdx5MD0_4EQr82nWburZJp14ROwCLcB/s1600/unnamed.png'/>
@@ -370,6 +374,8 @@ class AddEvents extends Component {
                           </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                  </div>
+                }
             </div>
         )
     }
