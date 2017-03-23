@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Icon, Image } from 'semantic-ui-react'
 import ReactRedirect from 'react-redirect'
+import { loginAdmin } from '../../actions'
+import { connect } from 'react-redux'
 
 export default class Login extends Component {
   constructor(){
@@ -8,9 +10,10 @@ export default class Login extends Component {
     this.state={
       email: '',
       password: '',
-      statusLogin: true
+      statusLogin: false
     }
   }
+
 
   onHandleEmail(e){
     e.preventDefault()
@@ -25,14 +28,9 @@ export default class Login extends Component {
     })
   }
 
-  componentWillMount(){
-
-
-  }
-
   render(){
+    console.log(this.props.tokenAdmin);
     return(
-
       <div className='InputStyle'>
         {this.state.statusLogin ? <ReactRedirect location='addevent'>
           </ReactRedirect> :
@@ -53,7 +51,7 @@ export default class Login extends Component {
                       </Form.Field>
                       <Form.Field>
                       </Form.Field>
-                      <Button color='twitter'>LOGIN</Button>
+                      <Button onClick={this.props.loginAdmin(this.state.email, this.state.password)} color='twitter'>LOGIN</Button>
                   </Form>
 
                 </Grid.Column>
@@ -68,7 +66,18 @@ export default class Login extends Component {
           </Grid>
            }
       </div>
-
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tokenAdmin: state.tokenAdmin
+  }
+}
+
+const mapDispatchToProps = dispatch =>({
+  loginAdmin: (email, password) => dispatch(loginAdmin(email, password))
+})
+
+export defautl connect(mapStateToProps, mapDispatchToProps)(Login)

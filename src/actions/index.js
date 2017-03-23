@@ -114,3 +114,24 @@ export const deleteEvent = (id) => {
     })
   }
 }
+
+export const getResultLoginAdmin = (resultLoginAdmin) => {
+  return {
+    type: 'GET_RESULT_LOGIN_ADMIN',
+    payload: resultLoginAdmin
+  }
+}
+
+export const loginAdmin = (email, password) =>{
+  return (dispatch) =>{
+    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/auth/admins',{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: email, password: password})
+    })
+    .then(res => res.json())
+    .then(resultLoginAdmin => {
+      dispatch(getResultLoginAdmin(resultLoginAdmin))
+    })
+  }
+}
