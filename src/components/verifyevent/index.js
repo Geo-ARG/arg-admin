@@ -81,8 +81,8 @@ class VerifyEvent extends Component {
                                 </Card.Content>
                                 {this.state.dataConfirmImage.length !== 0 ? <Button onClick={()=>{
                                   this.props.updateUserCompletion(this.state.dataConfirmImage[0].id, true)
-                                  this.clearAnswerKeyImage
-                                }} positive>Confirm</Button> : ""}
+                                  this.clearAnswerKeyImage()
+                                }} positive>Confirm</Button> : <div></div>}
                             </Card>
                         </Grid.Column>
                   </Grid.Row>

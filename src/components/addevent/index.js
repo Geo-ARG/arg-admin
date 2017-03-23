@@ -15,6 +15,7 @@ class AddEvents extends Component {
     constructor(){
         super()
         this.state = {
+          // loginStatus: false,
           title: '',
           description: '',
           startDate: '',
@@ -33,6 +34,7 @@ class AddEvents extends Component {
           cameraTask_task: '',
           cameraTask_answerKey: ''
       }
+      this.logout = this.logout.bind(this)
     }
     //======= Game Event handleChange============
     onHandleChangeTitle(e){
@@ -156,13 +158,13 @@ class AddEvents extends Component {
         })
     }
 
-    cameraTask_answerKey(e){
-      e.preventDefault()
-      this.setState({
-        cameraTask_answerKey: e.target.value
-      })
-    }
   //======= End ============
+
+    componentWillMount(){
+        // this.setState({
+        //   loginStatus: this.props.listsessionLoginStatus
+        // })
+    }
 
     componentDidMount (e) {
       var that = this
@@ -254,10 +256,15 @@ class AddEvents extends Component {
       }
     }
 
+    logout(e){
+      e.preventDefault()
+      // localStorage.clear()
+    }
+
     render() {
+
       const apikey = 'AyJh7Qc5RPisfAmqnfBmAz';
-        const onSuccess = (result) => {
-          console.log(result);
+      const onSuccess = (result) => {
           this.setState({
               cameraTask_answerKey: result.filesUploaded[0].url
           })
@@ -265,130 +272,117 @@ class AddEvents extends Component {
       const onError = (error) => {
           console.error(error);
       }
-
         return (
             <div className='InputStyle'>
-                <h1>ARG - Game Management - New Game</h1>
-                <div style={{display:'flex',justifyContent:'center'}}>
-                  <Image src='https://4.bp.blogspot.com/-JY1beh0o02M/V3DY9yPdCMI/AAAAAAAAAMI/NQUYgOQdx5MD0_4EQr82nWburZJp14ROwCLcB/s1600/unnamed.png'/>
-                </div>
-                <Grid celled>
-                    <Grid.Row>
-                      <Grid.Column width={3}>
-                        <h3>SETUP</h3>
-                        <div className="gameInfo">
-                          <Icon name='game' size='big' />
-                            <b>GAME INFO</b>
-                        </div>
-                        <div style={{marginTop: 20}} className="gameInfo">
-                          <Icon name='cancel' size='big' />
-                            <b>Logout</b>
-                        </div>
-                      </Grid.Column>
-                        <Grid.Column width={8}>
-                            <Form>
-                                <Form.Field>
-                                    <label style={{float: 'left'}}>Geme Title</label>
-                                    <input placeholder='Game Event' onChange={this.onHandleChangeTitle.bind(this)} value={this.state.title}/>
-                                </Form.Field>
+                    <h1>ARG - Game Management - New Game</h1>
+                    <div style={{display:'flex',justifyContent:'center'}}>
+                      <Image src='https://4.bp.blogspot.com/-JY1beh0o02M/V3DY9yPdCMI/AAAAAAAAAMI/NQUYgOQdx5MD0_4EQr82nWburZJp14ROwCLcB/s1600/unnamed.png'/>
+                    </div>
+                    <Grid celled>
+                        <Grid.Row>
+                          <Grid.Column width={3}>
+                            <h3>SETUP</h3>
+                            <div className="gameInfo">
+                              <Icon name='game' size='big' />
+                                <b>GAME INFO</b>
+                            </div>
+                            <div onClick={(e)=>this.logout(e)} style={{marginTop: 20}} className="gameInfo">
+                              <Icon name='cancel' size='big' />
+                                <b>Logout</b>
+                            </div>
+                          </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Form>
+                                    <Form.Field>
+                                        <label style={{float: 'left'}}>Geme Title</label>
+                                        <input placeholder='Game Event' onChange={this.onHandleChangeTitle.bind(this)} value={this.state.title}/>
+                                    </Form.Field>
 
-                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Game Description</b></label>
-                                <Form.Field control={TextArea} onChange={this.onHandleChangeDescription.bind(this)} value={this.state.description} placeholder='Tell us more about event'/>
+                                    <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Game Description</b></label>
+                                    <Form.Field control={TextArea} onChange={this.onHandleChangeDescription.bind(this)} value={this.state.description} placeholder='Tell us more about event'/>
 
-                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Date Event</b></label>
-                                <br></br>
-                                <div style={{float: 'left'}}>
-                                    <DatePicker selected={this.state.startDate} onChange={this.handleChange.bind(this)} />
-                                </div>
+                                    <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Date Event</b></label>
+                                    <br></br>
+                                    <div style={{float: 'left'}}>
+                                        <DatePicker selected={this.state.startDate} onChange={this.handleChange.bind(this)} />
+                                    </div>
+                                    <Form.Field >
+                                        <label style={{float: 'left', marginTop:15}}>Place</label>
+                                        <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)} value={this.state.place}/>
+                                    </Form.Field>
+                                    <Form.Field >
+                                        <label style={{float: 'left', marginTop:15}}>Event Score</label>
+                                        <input placeholder='EventScore' onChange={this.onHandleChangeEventScore.bind(this)} value={this.state.eventScore}/>
+                                    </Form.Field>
+                                    <Form.Field >
+                                      <label style={{float: 'left'}}>Location on Maps</label><br></br>
+                                      <div id="map" style={{marginTop:15, width:'auto', height:700}}></div>
+                                    </Form.Field>
 
-
-
-
-                                <Form.Field >
-                                    <label style={{float: 'left', marginTop:15}}>Place</label>
-                                    <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)} value={this.state.place}/>
-                                </Form.Field>
-                                <Form.Field >
-                                    <label style={{float: 'left', marginTop:15}}>Event Score</label>
-                                    <input placeholder='EventScore' onChange={this.onHandleChangeEventScore.bind(this)} value={this.state.eventScore}/>
-                                </Form.Field>
-                                <Form.Field >
-                                  <label style={{float: 'left'}}>Location on Maps</label><br></br>
-                                  <div id="map" style={{marginTop:15, width:'auto', height:700}}></div>
-                                </Form.Field>
-
-                            </Form>
-                        </Grid.Column>
-                          <Grid.Column width={5}>
-                              <h4>1. Location Task</h4>
+                                </Form>
+                            </Grid.Column>
+                              <Grid.Column width={5}>
+                                  <h4>1. Location Task</h4>
+                                <Form>
+                                    <Form.Field>
+                                        <label style={{float: 'left'}}>Title Quest</label>
+                                        <input placeholder='Title Quest' onChange={this.titleLocationTask.bind(this)} value={this.state.locationTask_title}/>
+                                    </Form.Field>
+                                    <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                                    <Form.Field control={TextArea} onChange={this.taskLocationTask.bind(this)} value={this.state.locationTask_task}rows='3' placeholder='Task of Game'/>
+                                    <Form.Field>
+                                        <label style={{float: 'left'}}>Answer Key</label><br></br>
+                                        <div id="mapTask" style={{marginTop:15, width:'auto', height:300}}></div>
+                                    </Form.Field>
+                                </Form>
+                                <hr></hr>
+                                <h4>2. Challenge Task</h4>
+                              <Form>
+                                  <Form.Field>
+                                      <label style={{float: 'left'}}>Title Quest</label>
+                                      <input placeholder='Title Quest' onChange={this.titlechallengeTask.bind(this)} value={this.state.challengeTask_title}/>
+                                  </Form.Field>
+                                  <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                                  <Form.Field control={TextArea} onChange={this.taskchallengeTask.bind(this)} value={this.state.challengeTask_task} rows='3' placeholder='Task of Game'/>
+                                  <Form.Field>
+                                      <label style={{float: 'left'}}>Answer Key</label>
+                                      <input placeholder='Answer Key' onChange={this.answerKeychallengeTask.bind(this)} value={this.state.challengeTask_answerKey} />
+                                  </Form.Field>
+                              </Form>
+                              <hr></hr>
+                              <h4>3. Camera Task</h4>
                             <Form>
                                 <Form.Field>
                                     <label style={{float: 'left'}}>Title Quest</label>
-                                    <input placeholder='Title Quest' onChange={this.titleLocationTask.bind(this)} value={this.state.locationTask_title}/>
+                                    <input placeholder='Title Quest' onChange={this.titlecameraTask.bind(this)} value={this.state.cameraTask_title}/>
                                 </Form.Field>
-                                <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
-                                <Form.Field control={TextArea} onChange={this.taskLocationTask.bind(this)} value={this.state.locationTask_task}rows='3' placeholder='Task of Game'/>
-                                <Form.Field>
-                                    <label style={{float: 'left'}}>Answer Key</label><br></br>
-                                    <div id="mapTask" style={{marginTop:15, width:'auto', height:300}}></div>
-                                </Form.Field>
+                              <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                              <Form.Field control={TextArea} rows='3' onChange={this.taskcameraTask.bind(this)} value={this.state.cameraTask_task} placeholder='Task of Game'/>
+                              <div>Pick Image MasterKey Challenge</div>
+                                  <ReactFilestack apikey={apikey} buttonText="Upload Image" onSuccess={onSuccess} onError={onError}
+                              />
                             </Form>
                             <hr></hr>
-                            <h4>2. Challenge Task</h4>
-                          <Form>
-                              <Form.Field>
-                                  <label style={{float: 'left'}}>Title Quest</label>
-                                  <input placeholder='Title Quest' onChange={this.titlechallengeTask.bind(this)} value={this.state.challengeTask_title}/>
-                              </Form.Field>
-                              <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
-                              <Form.Field control={TextArea} onChange={this.taskchallengeTask.bind(this)} value={this.state.challengeTask_task} rows='3' placeholder='Task of Game'/>
-                              <Form.Field>
-                                  <label style={{float: 'left'}}>Answer Key</label>
-                                  <input placeholder='Answer Key' onChange={this.answerKeychallengeTask.bind(this)} value={this.state.challengeTask_answerKey} />
-                              </Form.Field>
-                          </Form>
-                          <hr></hr>
-                          <h4>3. Camera Task</h4>
-                        <Form>
-                            <Form.Field>
-                                <label style={{float: 'left'}}>Title Quest</label>
-                                <input placeholder='Title Quest' onChange={this.titlecameraTask.bind(this)} value={this.state.cameraTask_title}/>
-                            </Form.Field>
-
-
-                          <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
-                            <Form.Field control={TextArea} rows='3' onChange={this.taskcameraTask.bind(this)} value={this.state.cameraTask_task} placeholder='Task of Game'/>
-                                {/*   <div>Pick Image MasterKey Challenge</div>
-                                  <ReactFilestack apikey={apikey} buttonText="Upload Image" onSuccess={onSuccess} onError={onError}
-                            />*/}
-
-                            <Form.Field >
-                                <label style={{float: 'left', marginTop:15}}>ImageURL</label>
-                                <input placeholder='Place' onChange={this.cameraTask_answerKey.bind(this)} value={this.state.cameraTask_answerKey}/>
-                            </Form.Field>
-                        </Form>
-
-
-
-
-                        <hr></hr>
-                          <div>
-                            <Button positive style={{marginTop:50, marginBottom:15}} onClick={this.handleSaveEvents.bind(this)} href="#">Save Game Event</Button>
-                          </div>
-                      </Grid.Column>
-                    </Grid.Row>
-
-                </Grid>
-
+                              <div>
+                                <Button positive style={{marginTop:50, marginBottom:15}} onClick={this.handleSaveEvents.bind(this)} href="#">Save Game Event</Button>
+                              </div>
+                          </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
             </div>
         )
     }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    listsessionLoginStatus: state.listsessionLoginStatus
+  }
+}
 
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({addEvent}, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(AddEvents)
+export default connect(mapStateToProps, mapDispatchToProps)(AddEvents)

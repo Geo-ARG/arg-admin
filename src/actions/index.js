@@ -12,6 +12,13 @@ export const showDataUserEvents = (resutUserEvents) => {
   }
 }
 
+export const sessionLoginStatus = () =>{
+  return {
+    type: 'SESSION_LOGIN_STATUS',
+    payload: true
+  }
+}
+
 export const getAllUserEvents = () => {
   return (dispatch) => {
     fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/quests/photo')

@@ -24,3 +24,12 @@ export const listResultLoginAdmin = (state= [], action) => {
       return state;
   }
 }
+
+export const listsessionLoginStatus = (state=false, action)=>{
+  switch(action.type){
+    case 'SESSION_LOGIN_STATUS':
+      return action.payload;
+    default:
+      return state;
+  }
+}

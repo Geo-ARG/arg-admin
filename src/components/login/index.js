@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Icon, Image } from 'semantic-ui-react'
 import ReactRedirect from 'react-redirect'
-import { loginAdmin } from '../../actions'
+import { loginAdmin, sessionLoginStatus } from '../../actions'
 import { connect } from 'react-redux'
 import swal from '../../../public/sweetalert.min.js'
 
@@ -36,16 +36,18 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextprops){
-    if(nextprops.tokenAdmin.status === true){
-      localStorage.setItem('token', `${nextprops.tokenAdmin.token}`)
+    if(nextprops.listResultLoginAdmin.status === true){
+      localStorage.setItem('token', `${nextprops.listResultLoginAdmin.token}`)
       this.setState({
         statusLogin: true
       })
-    }else if(nextprops.tokenAdmin.message === "Authentication failed. Wrong password." || nextprops.tokenAdmin.message === "Authentication failed. Email not found."){
+      nextprops.sessionLoginStatus()
+    }else if(nextprops.listResultLoginAdmin.message === "Authentication failed. Wrong password." || nextprops.listResultLoginAdmin.message === "Authentication failed. Email not found."){
       swal("Login Failed", "Check Email or Password", "error");
-      nextprops.tokenAdmin.message = ""
+      nextprops.listResultLoginAdmin.message = ""
     }
   }
+
 
   render(){
     return(
@@ -74,7 +76,7 @@ class Login extends Component {
 
                 </Grid.Column>
                     <Grid.Column width={11}>
-                    <h1>ARG - Game Management</h1>
+
                     <div style={{display:'flex',justifyContent:'center'}}>
                       <Image src='https://4.bp.blogspot.com/-JY1beh0o02M/V3DY9yPdCMI/AAAAAAAAAMI/NQUYgOQdx5MD0_4EQr82nWburZJp14ROwCLcB/s1600/unnamed.png'/>
                     </div>
@@ -90,12 +92,13 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tokenAdmin: state.listResultLoginAdmin
+    listResultLoginAdmin: state.listResultLoginAdmin
   }
 }
 
 const mapDispatchToProps = dispatch =>({
-  loginAdmin: (email, password) => dispatch(loginAdmin(email, password))
+  loginAdmin: (email, password) => dispatch(loginAdmin(email, password)),
+  sessionLoginStatus: ()=> dispatch(sessionLoginStatus())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
