@@ -104,7 +104,7 @@ class AddEvents extends Component {
         this.setState({
           locationTask_title: e.target.value
         })
-    }
+    }cameraTask_answerKey
     taskLocationTask(e){
         e.preventDefault()
         this.setState({
@@ -155,7 +155,12 @@ class AddEvents extends Component {
         })
     }
 
-
+    cameraTask_answerKey(e){
+      e.preventDefault()
+      this.setState({
+        cameraTask_answerKey: e.target.value
+      })
+    }
   //======= End ============
 
     componentDidMount (e) {
@@ -291,6 +296,9 @@ class AddEvents extends Component {
                                     <DatePicker selected={this.state.startDate} onChange={this.handleChange.bind(this)} />
                                 </div>
 
+
+
+
                                 <Form.Field >
                                     <label style={{float: 'left', marginTop:15}}>Place</label>
                                     <input placeholder='Place' onChange={this.onHandleChangePlace.bind(this)} value={this.state.place}/>
@@ -341,13 +349,23 @@ class AddEvents extends Component {
                                 <label style={{float: 'left'}}>Title Quest</label>
                                 <input placeholder='Title Quest' onChange={this.titlecameraTask.bind(this)} value={this.state.cameraTask_title}/>
                             </Form.Field>
-                            <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+
+
+                          {/* <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
                             <Form.Field control={TextArea} rows='3' onChange={this.taskcameraTask.bind(this)} value={this.state.cameraTask_task} placeholder='Task of Game'/>
-
                                   <div>Pick Image MasterKey Challenge</div>
-                                  <ReactFilestack apikey={apikey} buttonText="Upload Image" onSuccess={onSuccess} onError={onError} />
+                                  <ReactFilestack apikey={apikey} buttonText="Upload Image" onSuccess={onSuccess} onError={onError}
+                            />*/}
 
+                            <Form.Field >
+                                <label style={{float: 'left', marginTop:15}}>ImageURL</label>
+                                <input placeholder='Place' onChange={this.cameraTask_answerKey.bind(this)} value={this.state.cameraTask_answerKey}/>
+                            </Form.Field>
                         </Form>
+
+
+
+
                         <hr></hr>
                           <div>
                             <Button positive style={{marginTop:50, marginBottom:15}} onClick={this.handleSaveEvents.bind(this)} href="#">Save Game Event</Button>

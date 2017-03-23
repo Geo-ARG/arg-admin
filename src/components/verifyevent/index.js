@@ -25,7 +25,8 @@ class VerifyEvent extends Component {
 
     render() {
       var arrDataEvents = []
-      if(this.props.listUserEvents.length !==0){
+      if(this.props.listUserEvents.length > 0){
+        console.log("masuk");
         var hasil = this.props.listUserEvents.map(item=>{
             return item
         })
