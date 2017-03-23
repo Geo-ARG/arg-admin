@@ -19,9 +19,12 @@ export const sessionLoginStatus = () =>{
   }
 }
 
-export const getAllUserEvents = () => {
+export const getAllUserEvents = (token) => {
   return (dispatch) => {
-    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/quests/photo')
+    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/quests/photo',{
+      method: 'GET',
+      headers: {'Content-Type': 'application/json', 'token':token},
+    })
     .then(res => res.json())
     .then(resutUserEvents =>{
       dispatch(showDataUserEvents(resutUserEvents))
@@ -29,95 +32,100 @@ export const getAllUserEvents = () => {
   }
 }
 
-export const updateUserCompletion = (id, status) => {
+export const updateUserCompletion = (id, status, token) => {
   return (dispatch) => {
     fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/'+id,{
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'token': token},
       body: JSON.stringify({completion: status})
     }).then(()=>{
-      dispatch(getAllUserEvents())
+      dispatch(getAllUserEvents(token))
     })
   }
 }
 
 
-export const getAllDataEvents = () => {
+export const getAllDataEvents = (token) => {
   return (dispatch) =>{
-      fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/events')
-      .then(res => res.json())
+      fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/events',{
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', 'token':token},
+      }).then(res => res.json())
       .then(resultAddEvent => {
         dispatch(showDataEvent(resultAddEvent))
       })
   }
 }
 
-export const addQuest = (idEvent, newDataEvent) => {
+export const addQuest = (idEvent, newDataEvent, token) => {
     return (dispatch) =>{
         fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/quests',{
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json', 'token': token},
           body: JSON.stringify({title: newDataEvent.locationTask_title, task: newDataEvent.locationTask_task, EventId: idEvent, type: "Coordinate", answerKey: newDataEvent.locationTask_answerKey, photoUrl: "", verification: false})
         })
         fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/quests',{
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json', 'token': token},
           body: JSON.stringify({title: newDataEvent.challengeTask_title, task: newDataEvent.challengeTask_task, EventId: idEvent, type: "Text", answerKey: newDataEvent.challengeTask_answerKey, photoUrl: "", verification: false})
         })
         fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/quests',{
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json', 'token': token},
           body: JSON.stringify({title: newDataEvent.cameraTask_title, task: newDataEvent.cameraTask_task, EventId: idEvent, type: "Photo", answerKey: newDataEvent.cameraTask_answerKey, photoUrl: "", verification: false})
         })
     }
 }
 
-export const addEvent = (newDataEvent) => {
+export const addEvent = (newDataEvent, token) => {
   return (dispatch) =>{
       fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/events',{
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'token': token},
         body: JSON.stringify({title: newDataEvent.title, description: newDataEvent.description, date: newDataEvent.startDate._d, place: newDataEvent.place, eventScore: newDataEvent.eventScore, latitude: newDataEvent.lat, longitude: newDataEvent.lng, completion: newDataEvent.completion})
       })
       .then(res => res.json())
       .then(resultAddEvent => {
-        dispatch(addQuest(resultAddEvent.id, newDataEvent))
-        dispatch(getAllDataEvents())
+        dispatch(addQuest(resultAddEvent.id, newDataEvent, token))
+        dispatch(getAllDataEvents(token))
       })
   }
 }
 
-export const deleteQuest = (id) => {
+export const deleteQuest = (id, token) => {
   return (dispatch) => {
     fetch ('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/quests/event/'+id,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json', 'token': token}
     })
     .then(res => res.json())
     .then(deleteEvent => {
-      dispatch(getAllDataEvents())
+      dispatch(getAllDataEvents(token))
     })
   }
 }
 
-export const deleteUserEvents = (id) => {
+export const deleteUserEvents = (id, token) => {
   return (dispatch) => {
     fetch ('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/userevents/event/'+id,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json', 'token': token}
     })
   }
 }
 
 
-export const deleteEvent = (id) => {
+export const deleteEvent = (id, token) => {
   return (dispatch) => {
     fetch ('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/api/events/'+id,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json', 'token': token}
     })
     .then(res => res.json())
     .then(deleteEvent => {
-      dispatch(deleteUserEvents(id))
-      dispatch(deleteQuest(id))
-      dispatch(getAllDataEvents())
+      dispatch(deleteUserEvents(id, token))
+      dispatch(deleteQuest(id, token))
+      dispatch(getAllDataEvents(token))
     })
   }
 }

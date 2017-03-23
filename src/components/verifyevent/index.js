@@ -13,7 +13,8 @@ class VerifyEvent extends Component {
       this.clearAnswerKeyImage = this.clearAnswerKeyImage.bind(this)
     }
     componentWillMount(){
-      this.props.getAllUserEvents()
+      var token = localStorage.getItem('token')
+      this.props.getAllUserEvents(token)
     }
 
 
@@ -80,7 +81,7 @@ class VerifyEvent extends Component {
                                     <Card.Meta>{this.state.dataConfirmImage.length !== 0 ? this.state.dataConfirmImage[0].Quest.task : "AnswerKey"}</Card.Meta>
                                 </Card.Content>
                                 {this.state.dataConfirmImage.length !== 0 ? <Button onClick={()=>{
-                                  this.props.updateUserCompletion(this.state.dataConfirmImage[0].id, true)
+                                  this.props.updateUserCompletion(this.state.dataConfirmImage[0].id, true, localStorage.getItem('token'))
                                   this.clearAnswerKeyImage()
                                 }} positive>Confirm</Button> : <div></div>}
                             </Card>
@@ -99,8 +100,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getAllUserEvents: () => dispatch(getAllUserEvents()),
-  updateUserCompletion: (id, status) => dispatch(updateUserCompletion(id, status))
+  getAllUserEvents: (token) => dispatch(getAllUserEvents(token)),
+  updateUserCompletion: (id, status, token) => dispatch(updateUserCompletion(id, status, token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyEvent)

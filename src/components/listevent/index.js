@@ -6,7 +6,8 @@ import { getAllDataEvents, deleteEvent } from '../../actions/index.js'
 
 class ListEvent extends Component {
   componentWillMount(){
-    this.props.getAllDataEvents()
+    var token = localStorage.getItem('token')
+    this.props.getAllDataEvents(token)
   }
 
 
@@ -33,7 +34,7 @@ class ListEvent extends Component {
                        <Table.Cell>{item.date.toString().slice(0,10)}</Table.Cell >
                        <Table.Cell>{item.place}</Table.Cell >
                        <Table.Cell>
-                           <a onClick={()=>this.props.deleteEvent(item.id)}  href="#"><Icon name='delete' /></a>
+                           <a onClick={()=>this.props.deleteEvent(item.id, localStorage.getItem('token'))}  href="#"><Icon name='delete' /></a>
                         </Table.Cell>
                     </Table.Row>)
                   })}
@@ -52,8 +53,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getAllDataEvents: () => dispatch(getAllDataEvents()),
-  deleteEvent: (id) => dispatch(deleteEvent(id))
+  getAllDataEvents: (token) => dispatch(getAllDataEvents(token)),
+  deleteEvent: (id, token) => dispatch(deleteEvent(id, token))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListEvent)

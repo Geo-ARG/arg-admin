@@ -233,7 +233,8 @@ class AddEvents extends Component {
       if(this.state.title.trim()==="" || this.state.description.trim()==="" || this.state.startDate==="" || this.state.place.trim()==="" || this.state.eventScore.trim()==="" || this.state.lat==="" || this.state.lng==="" || this.state.locationTask_title.trim()==="" || this.state.locationTask_task.trim()==="" || this.state.locationTask_answerKey.trim()==="" || this.state.challengeTask_title.trim()==="" || this.state.challengeTask_task.trim()==="" || this.state.challengeTask_answerKey.trim()==="" || this.state.cameraTask_title.trim()==="" || this.state.cameraTask_task.trim()==="" || this.state.cameraTask_answerKey===""){
         alert("Input All Field")
       }else{
-        this.props.addEvent(this.state)
+        var token = localStorage.getItem('token')
+        this.props.addEvent(this.state, token)
         this.setState({
           title: '',
           description: '',
