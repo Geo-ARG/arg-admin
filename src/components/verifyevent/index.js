@@ -10,6 +10,7 @@ class VerifyEvent extends Component {
         dataConfirmImage: []
       }
       this.getListEvent = this.getListEvent.bind(this)
+      this.clearAnswerKeyImage = this.clearAnswerKeyImage.bind(this)
     }
     componentWillMount(){
       this.props.getAllUserEvents()
@@ -22,11 +23,16 @@ class VerifyEvent extends Component {
       })
     }
 
+    clearAnswerKeyImage(){
+      this.setState({
+        dataConfirmImage: []
+      })
+    }
+
 
     render() {
       var arrDataEvents = []
       if(this.props.listUserEvents.length > 0){
-        console.log("masuk");
         var hasil = this.props.listUserEvents.map(item=>{
             return item
         })
@@ -73,7 +79,10 @@ class VerifyEvent extends Component {
                                     <Card.Header>{this.state.dataConfirmImage.length !== 0 ? this.state.dataConfirmImage[0].Quest.title : ""}</Card.Header>
                                     <Card.Meta>{this.state.dataConfirmImage.length !== 0 ? this.state.dataConfirmImage[0].Quest.task : "AnswerKey"}</Card.Meta>
                                 </Card.Content>
-                                {this.state.dataConfirmImage.length !== 0 ? <Button onClick={()=>this.props.updateUserCompletion(this.state.dataConfirmImage[0].id, true)} positive>Confirm</Button> : ""}
+                                {this.state.dataConfirmImage.length !== 0 ? <Button onClick={()=>{
+                                  this.props.updateUserCompletion(this.state.dataConfirmImage[0].id, true)
+                                  this.clearAnswerKeyImage
+                                }} positive>Confirm</Button> : ""}
                             </Card>
                         </Grid.Column>
                   </Grid.Row>
