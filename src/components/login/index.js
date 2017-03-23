@@ -72,7 +72,7 @@ export default class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tokenAdmin: state.tokenAdmin
+    tokenAdmin: state.listResultLoginAdmin
   }
 }
 

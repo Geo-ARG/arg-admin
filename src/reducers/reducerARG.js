@@ -15,3 +15,12 @@ export const listDataUserEvents = (state= [], action) => {
       return state;
   }
 }
+
+export const listResultLoginAdmin = (state= [], action) => {
+  switch (action.type) {
+    case 'GET_RESULT_LOGIN_ADMIN':
+      return action.payload;
+    default:
+      return state;
+  }
+}
