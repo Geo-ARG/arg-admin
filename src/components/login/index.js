@@ -3,17 +3,24 @@ import { Button, Form, Grid, Icon, Image } from 'semantic-ui-react'
 import ReactRedirect from 'react-redirect'
 import { loginAdmin } from '../../actions'
 import { connect } from 'react-redux'
+import swal from '../../../public/sweetalert.min.js'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(){
     super()
     this.state={
       email: '',
       password: '',
-      statusLogin: false
+      statusLogin: false,
+      message: ''
     }
+    this.runLoginAdmin = this.runLoginAdmin.bind(this)
   }
 
+  runLoginAdmin(e){
+    e.preventDefault()
+    this.props.loginAdmin(this.state.email, this.state.password)
+  }
 
   onHandleEmail(e){
     e.preventDefault()
@@ -28,8 +35,19 @@ export default class Login extends Component {
     })
   }
 
+  componentWillReceiveProps(nextprops){
+    if(nextprops.tokenAdmin.status === true){
+      localStorage.setItem('token', `${nextprops.tokenAdmin.token}`)
+      this.setState({
+        statusLogin: true
+      })
+    }else if(nextprops.tokenAdmin.message === "Authentication failed. Wrong password." || nextprops.tokenAdmin.message === "Authentication failed. Email not found."){
+      swal("Login Failed", "Check Email or Password", "error");
+      nextprops.tokenAdmin.message = ""
+    }
+  }
+
   render(){
-    console.log(this.props.tokenAdmin);
     return(
       <div className='InputStyle'>
         {this.state.statusLogin ? <ReactRedirect location='addevent'>
@@ -51,7 +69,7 @@ export default class Login extends Component {
                       </Form.Field>
                       <Form.Field>
                       </Form.Field>
-                      <Button onClick={this.props.loginAdmin(this.state.email, this.state.password)} color='twitter'>LOGIN</Button>
+                      <Button onClick={(e)=>this.runLoginAdmin(e)} color='twitter'>LOGIN</Button>
                   </Form>
 
                 </Grid.Column>
@@ -80,4 +98,4 @@ const mapDispatchToProps = dispatch =>({
   loginAdmin: (email, password) => dispatch(loginAdmin(email, password))
 })
 
-export defautl connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

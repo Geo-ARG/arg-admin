@@ -104,7 +104,8 @@ class AddEvents extends Component {
         this.setState({
           locationTask_title: e.target.value
         })
-    }cameraTask_answerKey
+    }
+
     taskLocationTask(e){
         e.preventDefault()
         this.setState({
@@ -287,7 +288,7 @@ class AddEvents extends Component {
                         <Grid.Column width={8}>
                             <Form>
                                 <Form.Field>
-                                    <label style={{float: 'left'}}>Geme Event</label>
+                                    <label style={{float: 'left'}}>Geme Title</label>
                                     <input placeholder='Game Event' onChange={this.onHandleChangeTitle.bind(this)} value={this.state.title}/>
                                 </Form.Field>
 
@@ -355,9 +356,9 @@ class AddEvents extends Component {
                             </Form.Field>
 
 
-                          {/* <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
+                          <label style={{float: 'left'}}><b style={{fontSize: 'small'}}>Task</b></label>
                             <Form.Field control={TextArea} rows='3' onChange={this.taskcameraTask.bind(this)} value={this.state.cameraTask_task} placeholder='Task of Game'/>
-                                  <div>Pick Image MasterKey Challenge</div>
+                                {/*   <div>Pick Image MasterKey Challenge</div>
                                   <ReactFilestack apikey={apikey} buttonText="Upload Image" onSuccess={onSuccess} onError={onError}
                             />*/}
 

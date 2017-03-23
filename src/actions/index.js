@@ -124,7 +124,7 @@ export const getResultLoginAdmin = (resultLoginAdmin) => {
 
 export const loginAdmin = (email, password) =>{
   return (dispatch) =>{
-    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/auth/admins',{
+    fetch('http://geo-arg-server-dev.ap-southeast-1.elasticbeanstalk.com/auth/admins/login',{
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({email: email, password: password})
