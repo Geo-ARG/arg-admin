@@ -1,11 +1,41 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Icon, Image } from 'semantic-ui-react'
+import ReactRedirect from 'react-redirect'
 
 export default class Login extends Component {
+  constructor(){
+    super()
+    this.state={
+      email: '',
+      password: '',
+      statusLogin: true
+    }
+  }
+
+  onHandleEmail(e){
+    e.preventDefault()
+    this.setState({
+      email: e.target.value
+    })
+  }
+  onHandlePassword(e){
+    e.preventDefault()
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  componentWillMount(){
+
+
+  }
 
   render(){
     return(
+
       <div className='InputStyle'>
+        {this.state.statusLogin ? <ReactRedirect location='addevent'>
+          </ReactRedirect> :
           <Grid celled>
               <Grid.Row>
                 <Grid.Column width={5}>
@@ -16,10 +46,10 @@ export default class Login extends Component {
                   </div>
                   <Form>
                       <Form.Field>
-                        <input placeholder='Email' />
+                        <input onChange={this.onHandleEmail.bind(this)} value={this.state.email} placeholder='Email' />
                       </Form.Field>
-                      <Form.Field>
-                        <input placeholder='Password' />
+                      <Form.Field >
+                      <input onChange={this.onHandlePassword.bind(this)} value={this.state.password} type="password"placeholder='Password' />
                       </Form.Field>
                       <Form.Field>
                       </Form.Field>
@@ -36,6 +66,7 @@ export default class Login extends Component {
 
               </Grid.Row>
           </Grid>
+           }
       </div>
 
     )
